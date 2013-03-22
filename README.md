@@ -1,0 +1,4 @@
+testmod
+=======
+
+Minecraft modding tests
