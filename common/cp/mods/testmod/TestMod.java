@@ -3,7 +3,6 @@ package cp.mods.testmod;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.Configuration;
-import cp.mods.core.mod.ModVersion;
 import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
 import cp.mods.testmod.blocks.LogisticsChestType;
 import cpw.mods.fml.common.FMLLog;
@@ -16,7 +15,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "cpTestMod", name = "Test Mod")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)

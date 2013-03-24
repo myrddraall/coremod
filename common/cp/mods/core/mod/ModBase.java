@@ -5,11 +5,8 @@ import java.util.logging.Level;
 import net.minecraftforge.common.Configuration;
 import cp.mods.core.lang.LanguageHandler;
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public abstract class ModBase {
 	public void initialize(FMLPreInitializationEvent event) {
