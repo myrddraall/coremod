@@ -50,9 +50,6 @@ public class TestMod {
 	@Init
 	public void load(FMLInitializationEvent evt) {
 		registerBlocksAndItems();
-		registerRecipes();
-		registerNetworkHandlers();
-		registerEventHandlers();
 	}
 
 	@PostInit
@@ -64,15 +61,6 @@ public class TestMod {
 
 	}
 	private void registerBlocksAndItems() {
-		
-	}
-	private void registerRecipes() {
-		
-	}
-	private void registerNetworkHandlers() {
-		
-	}
-	private void registerEventHandlers() {
 		
 	}
 
