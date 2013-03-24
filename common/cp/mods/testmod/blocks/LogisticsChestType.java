@@ -1,11 +1,16 @@
 package cp.mods.testmod.blocks;
 
+import cp.mods.core.block.MultiTypeBlock;
 import cp.mods.core.type.BlockType;
 import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
 
-public class LogisticsChestType extends BlockType {
+public final class LogisticsChestType extends BlockType {
 
 	private static LogisticsChestType instance;
+
+	public static LogisticsChestType getInstance() {
+		return instance;
+	}
 
 	public static void initialize(int blockId)
 			throws BlockTypeAlreadyInitialized {
@@ -16,16 +21,18 @@ public class LogisticsChestType extends BlockType {
 	}
 
 	@Override
-	protected void initializeBlock() {
-		// TODO Auto-generated method stub
-
+	protected void initializeBlock() throws BlockTypeAlreadyInitialized{
+		MultiTypeBlock lcBlock = new LogisticsChestBlock(this.getBlockId());
+		setBlock(lcBlock);
+		//lcBlock.
+		
+		
 	}
 
 	@Override
 	protected void initializeSubTypes() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 }

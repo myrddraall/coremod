@@ -16,10 +16,11 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "cpTestMod", name = "Test Mod")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class TestMod {
+public class TestMod extends cp.mods.core.mod.ModBase {
 
 	// @SidedProxy(clientSide = "",
 	// serverSide = "")
@@ -29,41 +30,26 @@ public class TestMod {
 
 	public static int logisticsChestsBlockId;
 
+	
 	@PreInit
-	public void preLoad(FMLPreInitializationEvent event) {
-		// Initialize mod version
-		ModVersion.initialize(event.getVersionProperties());
-		event.getModMetadata().version = ModVersion.toVersionString();
-
-		// Get Configuration data for the mod
-		Configuration cfg = new Configuration(
-				event.getSuggestedConfigurationFile());
-		try {
-			cfg.load();
-			initializeFromConfig(cfg);
-		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, e,
-					"%s has a problem loading the configuration file at %s",
-					event.getModMetadata().name,
-					event.getSuggestedConfigurationFile());
-		} finally {
-			cfg.save();
-		}
+	public void initialize(FMLPreInitializationEvent event){
+		super.initialize(event);
 	}
-
 	@Init
-	public void load(FMLInitializationEvent evt) {
+	public void load(FMLInitializationEvent event) {
 		registerBlocksAndItems();
 	}
 
 	@PostInit
-	public void modsLoaded(FMLPostInitializationEvent evt) {
+	public void modsLoaded(FMLPostInitializationEvent event) {
 
 	}
 
-	private void initializeFromConfig(Configuration cfg) {
-		logisticsChestsBlockId = cfg.getBlock("logisticsChests", 9000).getInt(
-				9000);
+	@Override
+	protected void initializeFromConfig(Configuration cfg) {
+		logisticsChestsBlockId = cfg.getBlock("logisticsChests", 900).getInt(
+				900);
+		
 	}
 
 	private void registerBlocksAndItems() {
