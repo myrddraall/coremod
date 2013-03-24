@@ -4,6 +4,8 @@ import java.util.logging.Level;
 
 import net.minecraftforge.common.Configuration;
 import cp.mods.core.mod.ModVersion;
+import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
+import cp.mods.testmod.blocks.LogisticsChestType;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -24,6 +26,8 @@ public class TestMod {
 	// public static CommonProxy proxy;
 	@Instance("cpTestMod")
 	public static TestMod instance;
+
+	public static int logisticsChestsBlockId;
 
 	@PreInit
 	public void preLoad(FMLPreInitializationEvent event) {
@@ -58,10 +62,16 @@ public class TestMod {
 	}
 
 	private void initializeFromConfig(Configuration cfg) {
-
+		logisticsChestsBlockId = cfg.getBlock("logisticsChests", 9000).getInt(
+				9000);
 	}
+
 	private void registerBlocksAndItems() {
-		
+		try {
+			LogisticsChestType.initialize(logisticsChestsBlockId);
+		} catch (BlockTypeAlreadyInitialized e) {
+			FMLLog.log(Level.SEVERE, e, e.getMessage());
+		}
 	}
 
 }
