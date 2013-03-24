@@ -2,6 +2,7 @@ package cp.mods.core.type;
 
 import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
 import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
 
 public abstract class BlockType {
 
@@ -25,7 +26,7 @@ public abstract class BlockType {
 		return block;
 	}
 
-	protected void setBlockId(Block block) throws BlockTypeAlreadyInitialized {
+	protected void setBlock(Block block) throws BlockTypeAlreadyInitialized {
 		if (!initialized) {
 			this.block = block;
 		} else {
@@ -33,9 +34,12 @@ public abstract class BlockType {
 		}
 	}
 
-	public void initialize(int blockId) throws BlockTypeAlreadyInitialized {
+	protected void init(int blockId) throws BlockTypeAlreadyInitialized {
 		if (!initialized) {
 			setBlockId(blockId);
+			initializeBlock();
+			initializeSubTypes();
+			registerBlock();
 			initializeRecipes();
 			registerNetworkHandlers();
 			registerEventHandlers();
@@ -45,9 +49,24 @@ public abstract class BlockType {
 		}
 	}
 
-	protected abstract void initializeRecipes();
+	protected abstract void initializeBlock();
 
-	protected abstract void registerNetworkHandlers();
+	protected abstract void initializeSubTypes();
 
-	protected abstract void registerEventHandlers();
+	protected void registerBlock() {
+
+	}
+
+	protected void initializeRecipes() {
+	}
+
+	protected void registerNetworkHandlers() {
+	}
+
+	protected void registerEventHandlers() {
+	}
+
+	protected void addSubType(int index, String name, TileEntity e) {
+
+	}
 }
