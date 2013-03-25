@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public abstract class ModBase {
 	protected CommonProxyBase proxy;
-	
+
 	public void initialize(CommonProxyBase proxy, FMLPreInitializationEvent event) {
 		this.proxy = proxy;
 		ModMetadata meta = event.getModMetadata();
@@ -24,16 +24,13 @@ public abstract class ModBase {
 		meta.version = ModVersion.toVersionString(modId);
 
 		// Get Configuration data for the mod
-		Configuration cfg = new Configuration(
-				event.getSuggestedConfigurationFile());
+		Configuration cfg = new Configuration(event.getSuggestedConfigurationFile());
 
 		try {
 			cfg.load();
 			initializeFromConfig(cfg);
 		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, e,
-					"%s has a problem loading the configuration file at %s",
-					meta.name, event.getSuggestedConfigurationFile());
+			FMLLog.log(Level.SEVERE, e, "%s has a problem loading the configuration file at %s", meta.name, event.getSuggestedConfigurationFile());
 		} finally {
 			cfg.save();
 		}
@@ -43,6 +40,8 @@ public abstract class ModBase {
 		registerBlocksAndItems();
 		proxy.initializeRenderers();
 	}
+
 	protected abstract void initializeFromConfig(Configuration cfg);
+
 	protected abstract void registerBlocksAndItems();
 }

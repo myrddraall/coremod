@@ -23,11 +23,9 @@ public class ModVersion {
 
 			v.major = properties.getProperty(modId + ".build.major.number");
 			v.minor = properties.getProperty(modId + ".build.minor.number");
-			v.revision = properties.getProperty(modId
-					+ ".build.revision.number");
+			v.revision = properties.getProperty(modId + ".build.revision.number");
 			v.build = properties.getProperty(modId + ".build.number");
-			v.minecraftVersion = properties.getProperty(modId
-					+ ".build.mcversion");
+			v.minecraftVersion = properties.getProperty(modId + ".build.mcversion");
 		}
 	}
 
@@ -37,7 +35,6 @@ public class ModVersion {
 
 		ModVersion v = instances.get(modId);
 
-		return String.format("%s.%s%s build %s for Minecraft %s", v.major,
-				v.minor, v.revision, v.build, v.minecraftVersion);
+		return String.format("%s.%s%s build %s for Minecraft %s", v.major, v.minor, v.revision, v.build, v.minecraftVersion);
 	}
 }

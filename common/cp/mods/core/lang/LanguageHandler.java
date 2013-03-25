@@ -20,8 +20,7 @@ public class LanguageHandler {
 					for (int i = 0; i < files.length; i++) {
 						File file = files[i];
 						String fileName = file.getName();
-						String lang = fileName.substring(0,
-								fileName.lastIndexOf('.'));
+						String lang = fileName.substring(0, fileName.lastIndexOf('.'));
 						boolean isXML = fileName.endsWith(".xml");
 						lr.loadLocalization(basePath + fileName, lang, isXML);
 

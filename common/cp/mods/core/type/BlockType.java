@@ -52,8 +52,7 @@ public abstract class BlockType {
 		return blockName;
 	}
 
-	protected void setBlockName(String blockName)
-			throws BlockTypeAlreadyInitialized {
+	protected void setBlockName(String blockName) throws BlockTypeAlreadyInitialized {
 		if (!initialized) {
 			this.blockName = blockName;
 		} else {
@@ -65,8 +64,7 @@ public abstract class BlockType {
 		return block;
 	}
 
-	protected void setBlock(MultiTypeBlock block)
-			throws BlockTypeAlreadyInitialized {
+	protected void setBlock(MultiTypeBlock block) throws BlockTypeAlreadyInitialized {
 		if (!initialized) {
 			this.block = block;
 		} else {
@@ -78,8 +76,7 @@ public abstract class BlockType {
 		return itemClass;
 	}
 
-	protected void setItemClass(Class<ItemBlock> itemClass)
-			throws BlockTypeAlreadyInitialized {
+	protected void setItemClass(Class<ItemBlock> itemClass) throws BlockTypeAlreadyInitialized {
 		if (!initialized) {
 			this.itemClass = itemClass;
 		} else {
@@ -104,8 +101,7 @@ public abstract class BlockType {
 		}
 	}
 
-	protected abstract void initializeBlock()
-			throws BlockTypeAlreadyInitialized;
+	protected abstract void initializeBlock() throws BlockTypeAlreadyInitialized;
 
 	protected abstract void initializeSubTypes();
 
@@ -142,8 +138,7 @@ public abstract class BlockType {
 	// subTypeItems.add(index, itemClass);
 	// }
 
-	protected void addSubType(int index, String name,
-			Class<? extends TileEntityExtended> te) {
+	protected void addSubType(int index, String name, Class<? extends TileEntityExtended> te) {
 		String n = getBlockName() + "." + name;
 		subTypeNames.add(index, n);
 		subTypeIds.put(n, index);

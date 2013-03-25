@@ -13,8 +13,7 @@ public abstract class CommonProxyBase {
 		BlockType[] bts = BlockType.getBlockTypes();
 		for (int i = 0; i < bts.length; i++) {
 			BlockType type = bts[i];
-			Class<? extends TileEntityExtended>[] teClasses = type
-					.getSubEntities();
+			Class<? extends TileEntityExtended>[] teClasses = type.getSubEntities();
 			for (int j = 0; j < teClasses.length; j++) {
 				Class<? extends TileEntityExtended> teClass = teClasses[j];
 				try {

@@ -7,8 +7,7 @@ public abstract class BlockTypeException extends Exception {
 		super();
 	}
 
-	public BlockTypeException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
+	public BlockTypeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

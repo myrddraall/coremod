@@ -52,8 +52,7 @@ public class TestMod extends cp.mods.core.mod.ModBase {
 
 	@Override
 	protected void initializeFromConfig(Configuration cfg) {
-		logisticsChestsBlockId = cfg.getBlock("logisticsChests", 900).getInt(
-				900);
+		logisticsChestsBlockId = cfg.getBlock("logisticsChests", 900).getInt(900);
 
 	}
 

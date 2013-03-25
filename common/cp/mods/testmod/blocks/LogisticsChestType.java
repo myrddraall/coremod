@@ -12,24 +12,20 @@ public final class LogisticsChestType extends BlockType {
 		return instance;
 	}
 
-	public static void initialize(int blockId)
-			throws BlockTypeAlreadyInitialized {
+	public static void initialize(int blockId) throws BlockTypeAlreadyInitialized {
 		if (instance == null) {
 			instance = new LogisticsChestType();
 			instance.init(blockId);
 		}
 	}
-	
-	 
 
 	@Override
-	protected void initializeBlock() throws BlockTypeAlreadyInitialized{
+	protected void initializeBlock() throws BlockTypeAlreadyInitialized {
 		MultiTypeBlock lcBlock = new LogisticsChestBlock(this.getBlockId());
 		setBlock(lcBlock);
-		
-		//lcBlock.
-		
-		
+
+		// lcBlock.
+
 	}
 
 	@Override
