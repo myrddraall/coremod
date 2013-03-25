@@ -12,6 +12,21 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class BlockType {
 
+	private static HashMap<Integer, BlockType> blockTypes = new HashMap<Integer, BlockType>();
+
+	public static void registerBlockType(Integer id, BlockType bt) {
+		blockTypes.put(id, bt);
+	}
+
+	public static BlockType getBlockType(Integer id) {
+		return blockTypes.get(id);
+	}
+
+	public static BlockType[] getBlockTypes() {
+		BlockType[] bts = new BlockType[blockTypes.size()];
+		return blockTypes.values().toArray(bts);
+	}
+
 	private boolean initialized = false;
 	private int blockId;
 	private String blockName;
@@ -19,7 +34,7 @@ public abstract class BlockType {
 	private Class<ItemBlock> itemClass;
 	private ArrayList<String> subTypeNames = new ArrayList<String>();
 	private HashMap<String, Integer> subTypeIds = new HashMap<String, Integer>();
-	private ArrayList<Class<TileEntityExtended>> subTypeTEs = new ArrayList<Class<TileEntityExtended>>();
+	private ArrayList<Class<? extends TileEntityExtended>> subTypeTEs = new ArrayList<Class<? extends TileEntityExtended>>();
 
 	public int getBlockId() {
 		return blockId;
@@ -82,6 +97,7 @@ public abstract class BlockType {
 			initializeRecipes();
 			registerNetworkHandlers();
 			registerEventHandlers();
+			registerBlockType(blockId, this);
 			initialized = true;
 		} else {
 			throw new BlockTypeAlreadyInitialized();
@@ -105,7 +121,7 @@ public abstract class BlockType {
 		int len = subTypeNames.size();
 		for (int i = 0; i < len; i++) {
 			String name = subTypeNames.get(i);
-			Class<TileEntityExtended> tc = subTypeTEs.get(i);
+			Class<? extends TileEntityExtended> tc = subTypeTEs.get(i);
 			GameRegistry.registerTileEntity(tc, name);
 		}
 
@@ -127,11 +143,18 @@ public abstract class BlockType {
 	// }
 
 	protected void addSubType(int index, String name,
-			Class<TileEntityExtended> te) {
-		subTypeNames.add(index, name);
-		subTypeIds.put(name, index);
+			Class<? extends TileEntityExtended> te) {
+		String n = getBlockName() + "." + name;
+		subTypeNames.add(index, n);
+		subTypeIds.put(n, index);
 		subTypeTEs.add(index, te);
 
 	}
 
+	public Class<? extends TileEntityExtended>[] getSubEntities() {
+		@SuppressWarnings("unchecked")
+		Class<TileEntityExtended>[] tes = new Class[subTypeTEs.size()];
+		subTypeTEs.toArray(tes);
+		return tes;
+	}
 }

@@ -2,4 +2,6 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties version="1.0">
 	<comment>English (US) Localization File</comment>
+	<entry key="block.logisticschest.name">Logistics Chest Base Block</entry>
+	<entry key="item.logisticschest.name">Logistics Chest Base Item</entry>
 </properties>

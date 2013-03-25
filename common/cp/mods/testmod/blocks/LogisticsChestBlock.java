@@ -7,7 +7,6 @@ public class LogisticsChestBlock extends MultiTypeBlock {
 
 	protected LogisticsChestBlock(int par1) {
 		super(par1, Block.stone.blockMaterial);
-		// TODO Auto-generated constructor stub
 	}
 
 }

@@ -14,16 +14,19 @@ public final class LogisticsChestType extends BlockType {
 
 	public static void initialize(int blockId)
 			throws BlockTypeAlreadyInitialized {
-		if (instance != null) {
+		if (instance == null) {
 			instance = new LogisticsChestType();
 			instance.init(blockId);
 		}
 	}
+	
+	 
 
 	@Override
 	protected void initializeBlock() throws BlockTypeAlreadyInitialized{
 		MultiTypeBlock lcBlock = new LogisticsChestBlock(this.getBlockId());
 		setBlock(lcBlock);
+		
 		//lcBlock.
 		
 		
@@ -31,7 +34,7 @@ public final class LogisticsChestType extends BlockType {
 
 	@Override
 	protected void initializeSubTypes() {
-		// TODO Auto-generated method stub
+		addSubType(0, "firstBlock", TestLogisticsChest.class);
 
 	}
 
