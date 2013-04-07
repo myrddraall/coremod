@@ -1,7 +1,7 @@
 package cp.mods.testmod.blocks;
 
 import net.minecraft.block.Block;
-import cp.mods.core.block.MultiTypeBlock;
+import cp.mods.core.game.block.MultiTypeBlock;
 
 public class LogisticsChestBlock extends MultiTypeBlock {
 

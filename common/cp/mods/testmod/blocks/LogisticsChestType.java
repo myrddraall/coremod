@@ -1,6 +1,6 @@
 package cp.mods.testmod.blocks;
 
-import cp.mods.core.block.MultiTypeBlock;
+import cp.mods.core.game.block.MultiTypeBlock;
 import cp.mods.core.type.BlockType;
 import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
 

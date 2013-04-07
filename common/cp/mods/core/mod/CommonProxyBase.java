@@ -2,7 +2,7 @@ package cp.mods.core.mod;
 
 import java.lang.reflect.Method;
 
-import cp.mods.core.block.TileEntityExtended;
+import cp.mods.core.game.block.TileEntityExtended;
 import cp.mods.core.type.BlockType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

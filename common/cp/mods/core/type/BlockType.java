@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import cp.mods.core.block.MultiTypeBlock;
-import cp.mods.core.block.TileEntityExtended;
+import cp.mods.core.game.block.MultiTypeBlock;
+import cp.mods.core.game.block.TileEntityExtended;
 import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
 import cpw.mods.fml.common.registry.GameRegistry;
 
