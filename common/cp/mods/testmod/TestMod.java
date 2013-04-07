@@ -22,8 +22,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class TestMod extends cp.mods.core.mod.ModBase {
 
-	// @SidedProxy(clientSide = "",
-	// serverSide = "")
+	// @SidedProxy(clientSide = "", serverSide = "")
 	// public static CommonProxy proxy;
 
 	@SidedProxy(clientSide = "cp.mods.testmod.client.mod.ClientProxy", serverSide = "cp.mods.testmod.mod.CommonProxy")
