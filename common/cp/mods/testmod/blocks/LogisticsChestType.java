@@ -1,8 +1,8 @@
 package cp.mods.testmod.blocks;
 
-import cp.mods.core.game.block.MultiTypeBlock;
-import cp.mods.core.type.BlockType;
-import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
+import cp.mods.core.old.game.block.MultiTypeBlock;
+import cp.mods.core.old.type.BlockType;
+import cp.mods.core.old.type.exception.BlockTypeAlreadyInitialized;
 
 public final class LogisticsChestType extends BlockType {
 

@@ -2,8 +2,9 @@ package cp.mods.testmod.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import cp.mods.core.api.type.ISubtypedItemTypeDescriptor;
-import cp.mods.core.api.type.ItemTypeManager;
+import net.minecraftforge.common.Configuration;
+import cp.mods.core.api.type.old.ISubtypedItemTypeDescriptor;
+import cp.mods.core.api.type.old.ItemTypeManager;
 
 public enum TestItems implements ISubtypedItemTypeDescriptor
 {
@@ -56,6 +57,13 @@ public enum TestItems implements ISubtypedItemTypeDescriptor
     public void setItemStack(ItemStack stack)
     {
         this.stack = stack;
+    }
+
+    @Override
+    public void config(Configuration config)
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }

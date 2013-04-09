@@ -5,11 +5,11 @@ import java.util.Properties;
 
 public class ModVersion {
 	private static HashMap<String, ModVersion> instances = new HashMap<String, ModVersion>();
-	private String major;
-	private String minor;
-	private String revision;
-	private String build;
-	private String minecraftVersion;
+	public String major;
+	public String minor;
+	public String revision;
+	public String build;
+	public String minecraftVersion;
 
 	public static void initialize(String modId, Properties properties) {
 		if (modId != null && properties != null) {
@@ -35,6 +35,6 @@ public class ModVersion {
 
 		ModVersion v = instances.get(modId);
 
-		return String.format("%s.%s%s build %s for Minecraft %s", v.major, v.minor, v.revision, v.build, v.minecraftVersion);
+		return String.format("%s.%s%s build %s", v.major, v.minor, v.revision, v.build);
 	}
 }

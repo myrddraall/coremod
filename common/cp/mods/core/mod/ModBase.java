@@ -1,47 +1,27 @@
 package cp.mods.core.mod;
 
-import java.util.logging.Level;
-
-import net.minecraftforge.common.Configuration;
-import cp.mods.core.lang.LanguageHandler;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.ModMetadata;
+import cp.mods.core.mod.proxy.IModProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-public abstract class ModBase {
-	protected CommonProxyBase proxy;
 
-	public void initialize(CommonProxyBase proxy, FMLPreInitializationEvent event) {
-		this.proxy = proxy;
-		ModMetadata meta = event.getModMetadata();
-		String modId = meta.modId;
-		// Initialize Lang Files
-		LanguageHandler.load(modId);
-
-		// Initialize mod version
-		ModVersion.initialize(modId, event.getVersionProperties());
-		meta.version = ModVersion.toVersionString(modId);
-
-		// Get Configuration data for the mod
-		Configuration cfg = new Configuration(event.getSuggestedConfigurationFile());
-
-		try {
-			cfg.load();
-			initializeFromConfig(cfg);
-		} catch (Exception e) {
-			FMLLog.log(Level.SEVERE, e, "%s has a problem loading the configuration file at %s", meta.name, event.getSuggestedConfigurationFile());
-		} finally {
-			cfg.save();
-		}
-	}
-
-	public void load(FMLInitializationEvent event) {
-		registerBlocksAndItems();
-		proxy.initializeRenderers();
-	}
-
-	protected abstract void initializeFromConfig(Configuration cfg);
-
-	protected abstract void registerBlocksAndItems();
+public abstract class ModBase<P extends IModProxy>
+{
+    public ModBase(){
+       
+    }
+    
+    public abstract P getProxy();
+    
+    public void preInitialize(FMLPreInitializationEvent event){
+        getProxy().preInitialize(event);
+    }
+    public void initialize(FMLInitializationEvent event){
+        getProxy().initialize(event);
+    }
+    public void postInitialize(FMLPostInitializationEvent event){
+        getProxy().postInitialize(event);
+    }
+    
 }

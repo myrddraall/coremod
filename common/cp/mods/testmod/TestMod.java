@@ -3,7 +3,7 @@ package cp.mods.testmod;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.Configuration;
-import cp.mods.core.type.exception.BlockTypeAlreadyInitialized;
+import cp.mods.core.old.type.exception.BlockTypeAlreadyInitialized;
 import cp.mods.testmod.blocks.LogisticsChestType;
 import cp.mods.testmod.mod.CommonProxy;
 import cpw.mods.fml.common.FMLLog;
@@ -20,7 +20,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 
 @Mod(modid = "cpTestMod", name = "Test Mod")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class TestMod extends cp.mods.core.mod.ModBase {
+public class TestMod extends cp.mods.core.old.mod.ModBase {
 
 	// @SidedProxy(clientSide = "", serverSide = "")
 	// public static CommonProxy proxy;
