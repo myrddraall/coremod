@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import net.minecraftforge.common.Configuration;
 import cp.mods.core.lang.LanguageLoader;
 import cp.mods.core.mod.ModVersion;
-import cp.mods.core.mod.TypeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.ModMetadata;
