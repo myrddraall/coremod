@@ -1,6 +1,6 @@
-package cp.mods.TestMod2;
+package cp.mods.CoreMod;
 
-import cp.mods.TestMod2.proxy.CommonProxy;
+import cp.mods.CoreMod.proxy.CommonProxy;
 import cp.mods.core.mod.ModBase;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -14,7 +14,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME)
 @NetworkMod(clientSideRequired = ModInfo.CLIENT_REQUIRED, serverSideRequired = ModInfo.SERVER_REQUIRED)
-public class TestMod2 extends ModBase<CommonProxy>
+public class CoreMod extends ModBase<CommonProxy>
 {
     @SidedProxy(clientSide = ModInfo.CLIENT, serverSide = ModInfo.SERVER)
     public static CommonProxy proxy;

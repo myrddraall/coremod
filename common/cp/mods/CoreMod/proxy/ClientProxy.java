@@ -1,4 +1,4 @@
-package cp.mods.TestMod2.proxy;
+package cp.mods.CoreMod.proxy;
 
 
 public class ClientProxy extends CommonProxy
@@ -7,6 +7,5 @@ public class ClientProxy extends CommonProxy
     public void initializeRegistration()
     {
         super.initializeRegistration();
-      //  TypeRegistry.registerClientInitializer(SimpleTestItems.class, SimpleTestItemsInit.class);
     }
 }
