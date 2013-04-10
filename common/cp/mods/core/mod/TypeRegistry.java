@@ -8,9 +8,8 @@ import java.util.Set;
 import net.minecraftforge.common.Configuration;
 import cp.mods.core.api.type.IConfigurableType;
 import cp.mods.core.api.type.IEnumerableType;
-import cp.mods.core.api.type.IEnumeratedTypeInitializer;
-import cp.mods.core.api.type.IGlobalTypeInitializer;
 import cp.mods.core.api.type.IIndividuallyConfiguredType;
+import cp.mods.core.api.type.ISubtypeInitializer;
 import cp.mods.core.api.type.ITypeInitializer;
 import cp.mods.core.api.type.exception.TypeAlreadyRegisteredException;
 import cp.mods.core.api.type.exception.TypeNotRegisteredException;
@@ -97,29 +96,53 @@ public final class TypeRegistry
         }
     }
 
-    public static void doInitializationPhase()
+    private static void doInitializationPhase(Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> initializers)
     {
         for (Class<? extends IEnumerableType> typeClass : registeredTypes)
         {
-            if (registeredTypeInitializers.containsKey(typeClass))
+            if (initializers.containsKey(typeClass))
             {
                 try
                 {
-                    Class<? extends ITypeInitializer> initializer = registeredTypeInitializers.get(typeClass);
+                    Class<? extends ITypeInitializer> initializer = initializers.get(typeClass);
                     if (initializer.isEnum())
                     {
-                        IEnumeratedTypeInitializer[] insts = (IEnumeratedTypeInitializer[]) initializer.getEnumConstants();
-                        IEnumerableType[] types = (IEnumerableType[]) typeClass.getEnumConstants();
-                        for (IEnumeratedTypeInitializer inst : insts)
+                        IEnumerableType[] typeEnums = typeClass.getEnumConstants();
+                        ITypeInitializer[] initEnums = initializer.getEnumConstants();
+                        if (initEnums.length > 0 && initEnums.length == typeEnums.length)
                         {
-                            inst.initialize(types[((Enum<?>) inst).ordinal()]);
+                            ITypeInitializer first = initEnums[0];
+                            if (first instanceof ISubtypeInitializer)
+                            {
+                                ISubtypeInitializer f = (ISubtypeInitializer) first;
+                                f.initialize(typeClass);
+
+                                for (int i = 0; i < initEnums.length; i++)
+                                {
+                                    IEnumerableType type = typeEnums[i];
+                                    ISubtypeInitializer init = (ISubtypeInitializer) initEnums[i];
+                                    init.initialize(type);
+                                }
+                            }
+                        } else
+                        {
+                            // throw error
                         }
                     } else
                     {
-                        IGlobalTypeInitializer inst = (IGlobalTypeInitializer) initializer.newInstance();
-                        inst.initialize(typeClass);
-
+                        ITypeInitializer init = initializer.newInstance();
+                        init.initialize(typeClass);
+                        if (init instanceof ISubtypeInitializer)
+                        {
+                            IEnumerableType[] typeEnums = typeClass.getEnumConstants();
+                            for (int i = 0; i < typeEnums.length; i++)
+                            {
+                                IEnumerableType type = typeEnums[i];
+                                ((ISubtypeInitializer) init).initialize(type);
+                            }
+                        }
                     }
+
                 } catch (Exception e)
                 {
                     e.printStackTrace();
@@ -128,34 +151,14 @@ public final class TypeRegistry
         }
     }
 
+    public static void doInitializationPhase()
+    {
+        doInitializationPhase(registeredTypeInitializers);
+    }
+
     @SideOnly(Side.CLIENT)
     public static void doClientInitializationPhase()
     {
-        for (Class<? extends IEnumerableType> typeClass : registeredTypes)
-        {
-            if (registeredTypeClientInitializers.containsKey(typeClass))
-            {
-                try
-                {
-                    Class<? extends ITypeInitializer> initializer = registeredTypeClientInitializers.get(typeClass);
-                    if (initializer.isEnum())
-                    {
-                        IEnumeratedTypeInitializer[] insts = (IEnumeratedTypeInitializer[]) initializer.getEnumConstants();
-                        IEnumerableType[] types = (IEnumerableType[]) typeClass.getEnumConstants();
-                        for (IEnumeratedTypeInitializer inst : insts)
-                        {
-                            inst.initialize(types[((Enum<?>) inst).ordinal()]);
-                        }
-                    } else
-                    {
-                        IGlobalTypeInitializer inst = (IGlobalTypeInitializer) initializer.newInstance();
-                        inst.initialize(typeClass);
-                    }
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
+        doInitializationPhase(registeredTypeClientInitializers);
     }
 }

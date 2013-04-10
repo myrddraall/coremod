@@ -4,10 +4,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cp.mods.TestMod2.api.item.SimpleTestItems;
 import cp.mods.core.api.type.IEnumerableType;
-import cp.mods.core.api.type.IGlobalTypeInitializer;
+import cp.mods.core.api.type.ITypeInitializer;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class SimpleTestItemsInit implements IGlobalTypeInitializer
+public class SimpleTestItemsInit implements ITypeInitializer
 {
     @Override
     public void initialize(Class<? extends IEnumerableType> typeClass)
