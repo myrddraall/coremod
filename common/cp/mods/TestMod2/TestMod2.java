@@ -12,11 +12,11 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid = "cpTestMod2", name = "Test Mod 2")
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME)
+@NetworkMod(clientSideRequired = ModInfo.CLIENT_REQUIRED, serverSideRequired = ModInfo.SERVER_REQUIRED)
 public class TestMod2 extends ModBase<CommonProxy>
 {
-    @SidedProxy(clientSide = "cp.mods.TestMod2.proxy.ClientProxy", serverSide = "cp.mods.TestMod2.proxy.CommonProxy")
+    @SidedProxy(clientSide = ModInfo.CLIENT, serverSide = ModInfo.SERVER)
     public static CommonProxy proxy;
 
     @Override

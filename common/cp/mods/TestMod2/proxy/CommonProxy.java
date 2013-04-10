@@ -3,7 +3,7 @@ package cp.mods.TestMod2.proxy;
 import cp.mods.TestMod2.api.item.SimpleTestItems;
 import cp.mods.TestMod2.item.SimpleTestItemsInit;
 import cp.mods.TestMod2.network.ItemUpdateChannel;
-import cp.mods.core.api.type.TypeRegistry;
+import cp.mods.core.mod.TypeRegistry;
 import cp.mods.core.mod.proxy.ProxyBase;
 
 public class CommonProxy extends ProxyBase

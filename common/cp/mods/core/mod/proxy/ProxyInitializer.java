@@ -1,6 +1,6 @@
 package cp.mods.core.mod.proxy;
 
-import cp.mods.core.api.type.TypeRegistry;
+import cp.mods.core.mod.TypeRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;

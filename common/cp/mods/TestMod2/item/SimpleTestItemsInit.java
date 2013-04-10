@@ -1,20 +1,25 @@
 package cp.mods.TestMod2.item;
 
-import java.util.logging.Level;
-
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import cp.mods.TestMod2.api.item.SimpleTestItems;
 import cp.mods.core.api.type.IEnumerableType;
-import cp.mods.core.api.type.ITypeInitializer;
-import cpw.mods.fml.common.FMLLog;
+import cp.mods.core.api.type.IGlobalTypeInitializer;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-public enum SimpleTestItemsInit implements ITypeInitializer
+public class SimpleTestItemsInit implements IGlobalTypeInitializer
 {
-    TEST_ITEM;
-
     @Override
     public void initialize(Class<? extends IEnumerableType> typeClass)
-    {
-        FMLLog.log("TTTTTTTTTTT", Level.FINE, "initializing %s.%s ...", "SimpleTestItems", this.name());
-       
+    {        Item item;
+        ItemStack stack;
+        
+        item = new SimpleTestItem(SimpleTestItems.TEST_ITEM.getItemId());
+        item.setUnlocalizedName("testitem");
+        GameRegistry.registerItem(item, item.getUnlocalizedName());
+        stack = new ItemStack(item);
+        SimpleTestItems.TEST_ITEM.setItem(item);
+        SimpleTestItems.TEST_ITEM.setItemStack(stack);
     }
 
 }

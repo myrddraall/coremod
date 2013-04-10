@@ -6,11 +6,11 @@ import java.net.URL;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class LanguageHandler {
+public class LanguageLoader {
 
 	public static void load(String modId) {
 		String basePath = "/mods/" + modId + "/lang/";
-		URL url = LanguageHandler.class.getResource(basePath);
+		URL url = LanguageLoader.class.getResource(basePath);
 		if (url != null) {
 			try {
 				LanguageRegistry lr = LanguageRegistry.instance();
@@ -23,7 +23,6 @@ public class LanguageHandler {
 						String lang = fileName.substring(0, fileName.lastIndexOf('.'));
 						boolean isXML = fileName.endsWith(".xml");
 						lr.loadLocalization(basePath + fileName, lang, isXML);
-
 					}
 				}
 			} catch (URISyntaxException e) {

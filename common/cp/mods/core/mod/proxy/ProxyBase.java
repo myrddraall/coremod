@@ -5,9 +5,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.Configuration;
-import cp.mods.core.api.type.TypeRegistry;
-import cp.mods.core.lang.LanguageHandler;
+import cp.mods.core.lang.LanguageLoader;
 import cp.mods.core.mod.ModVersion;
+import cp.mods.core.mod.TypeRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.ModMetadata;
@@ -67,7 +67,7 @@ public abstract class ProxyBase implements IModProxy
     @Override
     public void initializeLanguages()
     {
-        LanguageHandler.load(modData.modId);
+        LanguageLoader.load(modData.modId);
     }
 
     @Override

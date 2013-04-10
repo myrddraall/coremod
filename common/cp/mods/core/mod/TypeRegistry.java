@@ -1,4 +1,4 @@
-package cp.mods.core.api.type;
+package cp.mods.core.mod;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,8 +6,18 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraftforge.common.Configuration;
+import cp.mods.core.api.type.IConfigurableType;
+import cp.mods.core.api.type.IEnumerableType;
+import cp.mods.core.api.type.IEnumeratedTypeInitializer;
+import cp.mods.core.api.type.IGlobalTypeInitializer;
+import cp.mods.core.api.type.IIndividuallyConfiguredType;
+import cp.mods.core.api.type.ITypeInitializer;
+import cp.mods.core.api.type.exception.TypeAlreadyRegisteredException;
+import cp.mods.core.api.type.exception.TypeNotRegisteredException;
 import cp.mods.core.network.NetworkManager;
 import cp.mods.core.network.packet.IPacketType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class TypeRegistry
 {
@@ -17,40 +27,30 @@ public final class TypeRegistry
 
     private static Map<Class<? extends IPacketType>, String> registeredNetworkChannels = new HashMap<Class<? extends IPacketType>, String>();
 
-    public static boolean register(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> commonInit)
+    public static void register(Class<? extends IEnumerableType> typeClass)
     {
-        if (register(typeClass))
-        {
-            registeredTypeInitializers.put(typeClass, commonInit);
-            return true;
-        }
-        return false;
+        if (!registeredTypes.add(typeClass))
+            throw new TypeAlreadyRegisteredException();
     }
 
-    public static boolean register(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> commonInit,
-            Class<? extends ITypeInitializer> clientInit)
+    public static void register(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> commonInit)
     {
-        if (register(typeClass, commonInit))
-        {
-            registeredTypeClientInitializers.put(typeClass, clientInit);
-            return true;
-        }
-        return false;
+        register(typeClass);
+        registeredTypeInitializers.put(typeClass, commonInit);
     }
 
-    public static boolean register(Class<? extends IEnumerableType> typeClass)
+    @SideOnly(Side.CLIENT)
+    public static void registerClientInitializer(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> clientInit)
     {
-        return registeredTypes.add(typeClass);
+        if (!registeredTypes.contains(typeClass))
+            throw new TypeNotRegisteredException();
+        registeredTypeClientInitializers.put(typeClass, clientInit);
     }
 
-    public static boolean registerNetworkChannel(Class<? extends IPacketType> typeClass, String channel)
+    public static void registerNetworkChannel(Class<? extends IPacketType> typeClass, String channel)
     {
-        if (register(typeClass))
-        {
-            registeredNetworkChannels.put(typeClass, channel);
-            return true;
-        }
-        return false;
+        register(typeClass);
+        registeredNetworkChannels.put(typeClass, channel);
     }
 
     public static boolean unregister(Class<? extends IEnumerableType> typeClass)
@@ -103,53 +103,57 @@ public final class TypeRegistry
         {
             if (registeredTypeInitializers.containsKey(typeClass))
             {
-                Class<? extends ITypeInitializer> initializer = registeredTypeInitializers.get(typeClass);
-                if (initializer.isEnum())
+                try
                 {
-                    ITypeInitializer[] insts = initializer.getEnumConstants();
-                    for (ITypeInitializer inst : insts)
+                    Class<? extends ITypeInitializer> initializer = registeredTypeInitializers.get(typeClass);
+                    if (initializer.isEnum())
                     {
+                        IEnumeratedTypeInitializer[] insts = (IEnumeratedTypeInitializer[]) initializer.getEnumConstants();
+                        IEnumerableType[] types = (IEnumerableType[]) typeClass.getEnumConstants();
+                        for (IEnumeratedTypeInitializer inst : insts)
+                        {
+                            inst.initialize(types[((Enum<?>) inst).ordinal()]);
+                        }
+                    } else
+                    {
+                        IGlobalTypeInitializer inst = (IGlobalTypeInitializer) initializer.newInstance();
                         inst.initialize(typeClass);
+
                     }
-                } else
+                } catch (Exception e)
                 {
-                    try
-                    {
-                        ITypeInitializer inst = initializer.newInstance();
-                        inst.initialize(typeClass);
-                    } catch (InstantiationException | IllegalAccessException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    e.printStackTrace();
                 }
             }
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public static void doClientInitializationPhase()
     {
         for (Class<? extends IEnumerableType> typeClass : registeredTypes)
         {
             if (registeredTypeClientInitializers.containsKey(typeClass))
             {
-                Class<? extends ITypeInitializer> initializer = registeredTypeClientInitializers.get(typeClass);
-                if (initializer.isEnum())
+                try
                 {
-                    ITypeInitializer[] insts = initializer.getEnumConstants();
-                    for (ITypeInitializer inst : insts)
+                    Class<? extends ITypeInitializer> initializer = registeredTypeClientInitializers.get(typeClass);
+                    if (initializer.isEnum())
                     {
+                        IEnumeratedTypeInitializer[] insts = (IEnumeratedTypeInitializer[]) initializer.getEnumConstants();
+                        IEnumerableType[] types = (IEnumerableType[]) typeClass.getEnumConstants();
+                        for (IEnumeratedTypeInitializer inst : insts)
+                        {
+                            inst.initialize(types[((Enum<?>) inst).ordinal()]);
+                        }
+                    } else
+                    {
+                        IGlobalTypeInitializer inst = (IGlobalTypeInitializer) initializer.newInstance();
                         inst.initialize(typeClass);
                     }
-                } else
+                } catch (Exception e)
                 {
-                    try
-                    {
-                        ITypeInitializer inst = initializer.newInstance();
-                        inst.initialize(typeClass);
-                    } catch (InstantiationException | IllegalAccessException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    e.printStackTrace();
                 }
             }
         }

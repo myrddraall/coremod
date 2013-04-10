@@ -3,7 +3,7 @@ package cp.mods.core.old.mod;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.Configuration;
-import cp.mods.core.lang.LanguageHandler;
+import cp.mods.core.lang.LanguageLoader;
 import cp.mods.core.mod.ModVersion;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.ModMetadata;
@@ -18,7 +18,7 @@ public abstract class ModBase {
 		ModMetadata meta = event.getModMetadata();
 		String modId = meta.modId;
 		// Initialize Lang Files
-		LanguageHandler.load(modId);
+		LanguageLoader.load(modId);
 
 		// Initialize mod version
 		ModVersion.initialize(modId, event.getVersionProperties());
