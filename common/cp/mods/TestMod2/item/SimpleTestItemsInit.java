@@ -11,9 +11,10 @@ public class SimpleTestItemsInit implements ITypeInitializer
 {
     @Override
     public void initialize(Class<? extends IEnumerableType> typeClass)
-    {        Item item;
+    {
+        Item item;
         ItemStack stack;
-        
+
         item = new SimpleTestItem(SimpleTestItems.TEST_ITEM.getItemId());
         item.setUnlocalizedName("testitem");
         GameRegistry.registerItem(item, item.getUnlocalizedName());
