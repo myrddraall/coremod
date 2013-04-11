@@ -1,6 +1,7 @@
 package cp.mods.core.mod.proxy;
 
 import net.minecraftforge.common.Configuration;
+import cp.mods.core.mod.TypeRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -29,4 +30,6 @@ public interface IModProxy
     Side getSide();
 
     Configuration config();
+    
+    TypeRegistry getTypeRegistry();
 }

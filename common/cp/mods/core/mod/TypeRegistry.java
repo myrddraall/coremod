@@ -20,49 +20,49 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public final class TypeRegistry
 {
-    private static Set<Class<? extends IEnumerableType>> registeredTypes = new HashSet<Class<? extends IEnumerableType>>();
-    private static Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> registeredTypeInitializers = new HashMap<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>>();
-    private static Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> registeredTypeClientInitializers = new HashMap<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>>();
+    private Set<Class<? extends IEnumerableType>> registeredTypes = new HashSet<Class<? extends IEnumerableType>>();
+    private Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> registeredTypeInitializers = new HashMap<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>>();
+    private Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> registeredTypeClientInitializers = new HashMap<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>>();
 
-    private static Map<Class<? extends IPacketType>, String> registeredNetworkChannels = new HashMap<Class<? extends IPacketType>, String>();
+    private Map<Class<? extends IPacketType>, String> registeredNetworkChannels = new HashMap<Class<? extends IPacketType>, String>();
 
-    public static void register(Class<? extends IEnumerableType> typeClass)
+    public void register(Class<? extends IEnumerableType> typeClass)
     {
         if (!registeredTypes.add(typeClass))
             throw new TypeAlreadyRegisteredException();
     }
 
-    public static void register(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> commonInit)
+    public void register(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> commonInit)
     {
         register(typeClass);
         registeredTypeInitializers.put(typeClass, commonInit);
     }
 
     @SideOnly(Side.CLIENT)
-    public static void registerClientInitializer(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> clientInit)
+    public void registerClientInitializer(Class<? extends IEnumerableType> typeClass, Class<? extends ITypeInitializer> clientInit)
     {
         if (!registeredTypes.contains(typeClass))
             throw new TypeNotRegisteredException();
         registeredTypeClientInitializers.put(typeClass, clientInit);
     }
 
-    public static void registerNetworkChannel(Class<? extends IPacketType> typeClass, String channel)
+    public void registerNetworkChannel(Class<? extends IPacketType> typeClass, String channel)
     {
         register(typeClass);
         registeredNetworkChannels.put(typeClass, channel);
     }
 
-    public static boolean unregister(Class<? extends IEnumerableType> typeClass)
+    public boolean unregister(Class<? extends IEnumerableType> typeClass)
     {
         return registeredTypes.remove(typeClass);
     }
 
-    public static Set<Class<? extends IEnumerableType>> getRegisteredTypes()
+    public Set<Class<? extends IEnumerableType>> getRegisteredTypes()
     {
         return registeredTypes;
     }
 
-    public static void doConfigPhase(Configuration config)
+    public void doConfigPhase(Configuration config)
     {
         for (Class<? extends IEnumerableType> typeClass : registeredTypes)
         {
@@ -83,7 +83,7 @@ public final class TypeRegistry
         }
     }
 
-    public static void doNetworkPhase()
+    public void doNetworkPhase()
     {
         for (Class<? extends IEnumerableType> typeClass : registeredTypes)
         {
@@ -96,7 +96,7 @@ public final class TypeRegistry
         }
     }
 
-    private static void doInitializationPhase(Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> initializers)
+    private void doInitializationPhase(Map<Class<? extends IEnumerableType>, Class<? extends ITypeInitializer>> initializers)
     {
         for (Class<? extends IEnumerableType> typeClass : registeredTypes)
         {
@@ -151,13 +151,13 @@ public final class TypeRegistry
         }
     }
 
-    public static void doInitializationPhase()
+    public void doInitializationPhase()
     {
         doInitializationPhase(registeredTypeInitializers);
     }
 
     @SideOnly(Side.CLIENT)
-    public static void doClientInitializationPhase()
+    public void doClientInitializationPhase()
     {
         doInitializationPhase(registeredTypeClientInitializers);
     }

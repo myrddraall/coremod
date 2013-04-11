@@ -1,6 +1,5 @@
 package cp.mods.core.mod.proxy;
 
-import cp.mods.core.mod.TypeRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -16,15 +15,15 @@ public class ProxyInitializer
         proxy.initializeLanguages();
         proxy.loadConfig();
         proxy.initializeConfig();
-        TypeRegistry.doConfigPhase(proxy.config());
+        proxy.getTypeRegistry().doConfigPhase(proxy.config());
         proxy.saveConfig();
     }
 
     public static void initialize(IModProxy proxy, FMLInitializationEvent event)
     {
-        TypeRegistry.doInitializationPhase();
+        proxy.getTypeRegistry().doInitializationPhase();
         if(proxy.getSide() == Side.CLIENT){
-            TypeRegistry.doClientInitializationPhase();
+            proxy.getTypeRegistry().doClientInitializationPhase();
         }
     }
 
