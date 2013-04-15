@@ -6,10 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraftforge.common.Configuration;
-import cp.mods.core.api.type.IConfigurableType;
 import cp.mods.core.api.type.IEnumerableType;
-import cp.mods.core.api.type.IIndividuallyConfiguredType;
-import cp.mods.core.api.type.ISubtypeInitializer;
 import cp.mods.core.api.type.ITypeInitializer;
 import cp.mods.core.api.type.exception.TypeAlreadyRegisteredException;
 import cp.mods.core.api.type.exception.TypeNotRegisteredException;
@@ -26,7 +23,12 @@ public final class TypeRegistry
 
     private Map<Class<? extends IPacketType>, String> registeredNetworkChannels = new HashMap<Class<? extends IPacketType>, String>();
 
-    public void register(Class<? extends IEnumerableType> typeClass)
+    private Class<? extends ITypeInitializer> getInitializer(Class<? extends IEnumerableType> type)
+    {
+        return registeredTypeInitializers.get(type);
+    }
+
+    private void register(Class<? extends IEnumerableType> typeClass)
     {
         if (!registeredTypes.add(typeClass))
             throw new TypeAlreadyRegisteredException();
@@ -66,19 +68,26 @@ public final class TypeRegistry
     {
         for (Class<? extends IEnumerableType> typeClass : registeredTypes)
         {
-            IEnumerableType[] types = (IEnumerableType[]) typeClass.getEnumConstants();
-            IEnumerableType firstType = types[0];
-            if (firstType instanceof IIndividuallyConfiguredType)
+            try
             {
+                Class<? extends ITypeInitializer> initClass = getInitializer(typeClass);
+                ITypeInitializer init;
+                init = initClass.newInstance();
+                init.config(config);
+
+                IEnumerableType[] types = (IEnumerableType[]) typeClass.getEnumConstants();
                 for (IEnumerableType type : types)
                 {
-                    IConfigurableType t = (IConfigurableType) type;
-                    t.config(config);
+                    init.config(config, type);
                 }
-            } else if (firstType instanceof IConfigurableType)
+            } catch (InstantiationException e)
             {
-                IConfigurableType t = (IConfigurableType) firstType;
-                t.config(config);
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IllegalAccessException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
     }
@@ -105,42 +114,15 @@ public final class TypeRegistry
                 try
                 {
                     Class<? extends ITypeInitializer> initializer = initializers.get(typeClass);
-                    if (initializer.isEnum())
-                    {
-                        IEnumerableType[] typeEnums = typeClass.getEnumConstants();
-                        ITypeInitializer[] initEnums = initializer.getEnumConstants();
-                        if (initEnums.length > 0 && initEnums.length == typeEnums.length)
-                        {
-                            ITypeInitializer first = initEnums[0];
-                            if (first instanceof ISubtypeInitializer)
-                            {
-                                ISubtypeInitializer f = (ISubtypeInitializer) first;
-                                f.initialize(typeClass);
 
-                                for (int i = 0; i < initEnums.length; i++)
-                                {
-                                    IEnumerableType type = typeEnums[i];
-                                    ISubtypeInitializer init = (ISubtypeInitializer) initEnums[i];
-                                    init.initialize(type);
-                                }
-                            }
-                        } else
-                        {
-                            // throw error
-                        }
-                    } else
+                    ITypeInitializer init = initializer.newInstance();
+                    init.initialize();
+
+                    IEnumerableType[] typeEnums = typeClass.getEnumConstants();
+                    for (int i = 0; i < typeEnums.length; i++)
                     {
-                        ITypeInitializer init = initializer.newInstance();
-                        init.initialize(typeClass);
-                        if (init instanceof ISubtypeInitializer)
-                        {
-                            IEnumerableType[] typeEnums = typeClass.getEnumConstants();
-                            for (int i = 0; i < typeEnums.length; i++)
-                            {
-                                IEnumerableType type = typeEnums[i];
-                                ((ISubtypeInitializer) init).initialize(type);
-                            }
-                        }
+                        IEnumerableType type = typeEnums[i];
+                        init.initialize(type);
                     }
 
                 } catch (Exception e)

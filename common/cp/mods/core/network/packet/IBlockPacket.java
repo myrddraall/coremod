@@ -1,7 +1,5 @@
 package cp.mods.core.network.packet;
 
-import com.jcraft.jorbis.Block;
-
 import net.minecraft.tileentity.TileEntity;
 
 public interface IBlockPacket extends IPacket
@@ -21,6 +19,5 @@ public interface IBlockPacket extends IPacket
 
     void setZ(int z);
     
-    Block getBlock();
     TileEntity getTileEntity();
 }

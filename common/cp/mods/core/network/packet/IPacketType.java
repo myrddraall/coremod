@@ -4,7 +4,7 @@ import cp.mods.core.api.type.IEnumerableType;
 
 public interface IPacketType extends IEnumerableType
 {
-    Class<IPacket> getPacketClass();
+    Class <? extends IPacket> getPacketClass();
 
     IPacket create();
 
